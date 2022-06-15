@@ -1,0 +1,4 @@
+# can be moved to pyproject.toml some day
+# https://github.com/PyCQA/bandit/issues/550
+[bandit]
+recursive = true
