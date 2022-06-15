@@ -38,5 +38,6 @@ repos:
         additional_dependencies:
           - types-requests==0.1.13
           - types-jsonschema==3.2.0
+          - python-dotenv==0.20.0
         args: [ --strict, --implicit-reexport ]
         files: src
