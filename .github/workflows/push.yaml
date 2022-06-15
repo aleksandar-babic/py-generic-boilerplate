@@ -1,15 +1,39 @@
 name: Push to GCR GitHub Action
 on:
   push:
+    paths-ignore:
+      - '**.md'
     branches:
       - 'main'
 jobs:
-  build-and-push-to-gcr:
+  test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: google-github-actions/setup-gcloud@v1
-      - uses: RafikFarhad/push-to-gcr-github-action@v4
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      - name: Install dependecies
+        uses: VaultVulp/action-pipenv@v2.0.1
+        with:
+          command: install -d
+      - name: Execute pre-commit
+        uses: VaultVulp/action-pipenv@v2.0.1
+        with:
+          command: run pre-commit run -a --color=always --show-diff-on-failure
+      - name: Execute Unit Tests
+        uses: VaultVulp/action-pipenv@v2.0.1
+        with:
+          command: run make test
+  build-and-push-to-gcr:
+    needs:
+      - test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: google-github-actions/setup-gcloud@v0
+      - name: Push image with commit hash tag
+        uses: RafikFarhad/push-to-gcr-github-action@v4
         with:
           gcloud_service_key: ${{ secrets.GCLOUD_SERVICE_KEY }}
           registry: gcr.io
@@ -17,7 +41,8 @@ jobs:
           image_name: ${{ github.event.repository.name }}
           image_tag: ${{ github.sha }}
           dockerfile: ./Dockerfile
-      - uses: RafikFarhad/push-to-gcr-github-action@v4
+      - name: Push image with latest tag
+        uses: RafikFarhad/push-to-gcr-github-action@v4
         with:
           gcloud_service_key: ${{ secrets.GCLOUD_SERVICE_KEY }}
           registry: gcr.io

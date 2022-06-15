@@ -1,3 +1,5 @@
+# Python Generic Boilerplate
+
 ### Initialize local environment
 
 Requirements:
@@ -49,17 +51,30 @@ docker run --rm --env-file .env py-generic-boilerplate
 
 ## GitHub Actions
 
-#### Docker image build & push Workflow
+#### Docker image build & push Workflow (on push event)
 
 Push workflow is located at [.github/workflows/push.yaml](.github/workflows/push.yaml) and does the following:
 
-1. Builds the `Dockerfile`
-2. Pushes the image to the GCR registry with `latest` tag
-3. Pushes the image to the GCR registry with `<COMMIT_SHA>` tag
+1. Installs Python
+2. Install dependencies
+3. Runs pre-commit
+4. Runs unit tests
+5. Builds the `Dockerfile`
+6. Pushes the image to the GCR registry with `latest` tag
+7.Pushes the image to the GCR registry with `<COMMIT_SHA>` tag
 
 The workflow requires 2 secrets to be present:
 
 1. `GCLOUD_PROJECT_ID` - GCP project ID
 2. `GCLOUD_SERVICE_KEY` - Base64 encoded service account JSON (`python3 -m base64 -e < sa.json`)
 
-> In order to successfully run the workflow, the GCR repository has to exist and provided SA must have write access to it.
+> In order to successfully run the workflow, provided SA must have write access to GCR.
+
+#### Test (on PR event)
+
+PR workflow is located at [.github/workflows/pr.yaml](.github/workflows/pr.yaml) and does the following:
+
+1. Installs Python
+2. Install dependencies
+3. Runs pre-commit
+4. Runs unit tests
