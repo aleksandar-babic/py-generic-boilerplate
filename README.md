@@ -61,7 +61,7 @@ Push workflow is located at [.github/workflows/push.yaml](.github/workflows/push
 4. Runs unit tests
 5. Builds the `Dockerfile`
 6. Pushes the image to the GCR registry with `latest` tag
-7.Pushes the image to the GCR registry with `<COMMIT_SHA>` tag
+7. Pushes the image to the GCR registry with `<COMMIT_SHA>` tag
 
 The workflow requires 2 secrets to be present:
 
