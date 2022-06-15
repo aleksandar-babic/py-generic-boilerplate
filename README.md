@@ -62,4 +62,4 @@ The workflow requires 2 secrets to be present:
 1. `GCLOUD_PROJECT_ID` - GCP project ID
 2. `GCLOUD_SERVICE_KEY` - Base64 encoded service account JSON (`python3 -m base64 -e < sa.json`)
 
-> In order to successfully run the workflow, the GCR repository has to exist and provided SA must have write access to it.
+> In order to successfully run the workflow, provided SA must have write access to it.
