@@ -1,6 +1,8 @@
 name: Push to GCR GitHub Action
 on:
   push:
+    paths-ignore:
+      - '**.md'
     branches:
       - 'main'
 jobs:
