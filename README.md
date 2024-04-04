@@ -5,14 +5,14 @@
 Requirements:
 
 - Python 3.10+
-- Pipenv
+- [Poetry](curl -sSL https://install.python-poetry.org | python3 -)
 - Make
 
 #### Setup
 
 ```shell
-pipenv install --dev
-pipenv shell
+poetry install
+poetry shell
 make init
 ```
 

@@ -2,11 +2,14 @@ FROM python:3.10-slim
 
 WORKDIR /app
 
-RUN pip3 install pipenv
+RUN apt update && \
+    apt install -y curl && \
+    curl -sSL https://install.python-poetry.org | env POETRY_HOME=/usr/local python3 -
 
-COPY Pipfile* ./
-RUN pipenv install --dev
+COPY pyproject.toml ./
+COPY poetry.lock ./
+RUN poetry install
 
 COPY src src
 
-ENTRYPOINT [ "pipenv", "run", "python", "src/main.py" ]
+ENTRYPOINT [ "poetry", "run", "python", "src/main.py" ]

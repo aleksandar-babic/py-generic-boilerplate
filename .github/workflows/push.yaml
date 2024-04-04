@@ -13,18 +13,13 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.10"
+      - uses: snok/install-poetry@v1
       - name: Install dependecies
-        uses: VaultVulp/action-pipenv@v2.0.1
-        with:
-          command: install -d
+        run: poetry install
       - name: Execute pre-commit
-        uses: VaultVulp/action-pipenv@v2.0.1
-        with:
-          command: run pre-commit run -a --color=always --show-diff-on-failure
+        run: poetry run pre-commit run -a --color=always --show-diff-on-failure
       - name: Execute Unit Tests
-        uses: VaultVulp/action-pipenv@v2.0.1
-        with:
-          command: run make test
+        run: poetry run make test
   build-and-push-to-gcr:
     needs:
       - test
