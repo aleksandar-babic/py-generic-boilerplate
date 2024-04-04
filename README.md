@@ -5,7 +5,7 @@
 Requirements:
 
 - Python 3.10+
-- [Poetry](curl -sSL https://install.python-poetry.org | python3 -)
+- Poetry (`curl -sSL https://install.python-poetry.org | python3 -`)
 - Make
 
 #### Setup
