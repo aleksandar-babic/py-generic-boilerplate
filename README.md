@@ -4,9 +4,9 @@
 
 Requirements:
 
-* Python 3.9+
-* Pipenv
-* Make
+- Python 3.10+
+- Pipenv
+- Make
 
 #### Setup
 

@@ -2,17 +2,17 @@ name: Push to GCR GitHub Action
 on:
   push:
     paths-ignore:
-      - '**.md'
+      - "**.md"
     branches:
-      - 'main'
+      - "main"
 jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-python@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
-          python-version: '3.10'
+          python-version: "3.10"
       - name: Install dependecies
         uses: VaultVulp/action-pipenv@v2.0.1
         with:
@@ -30,10 +30,10 @@ jobs:
       - test
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: google-github-actions/setup-gcloud@v0
+      - uses: actions/checkout@v4
+      - uses: google-github-actions/setup-gcloud@v2
       - name: Push image with commit hash tag
-        uses: RafikFarhad/push-to-gcr-github-action@v4
+        uses: RafikFarhad/push-to-gcr-github-action@v4.1
         with:
           gcloud_service_key: ${{ secrets.GCLOUD_SERVICE_KEY }}
           registry: gcr.io
@@ -42,7 +42,7 @@ jobs:
           image_tag: ${{ github.sha }}
           dockerfile: ./Dockerfile
       - name: Push image with latest tag
-        uses: RafikFarhad/push-to-gcr-github-action@v4
+        uses: RafikFarhad/push-to-gcr-github-action@v4.1
         with:
           gcloud_service_key: ${{ secrets.GCLOUD_SERVICE_KEY }}
           registry: gcr.io

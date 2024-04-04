@@ -28,8 +28,8 @@ lint:
 
 .PHONY: security
 security:
-	bandit --ini .bandit $(SRC_DIR)
-	safety check --full-report
+	bandit -r $(SRC_DIR)
+	safety scan
 
 .PHONY: type
 type:
