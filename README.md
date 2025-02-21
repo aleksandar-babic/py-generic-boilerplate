@@ -45,7 +45,7 @@ Alternatively, run `pre-commit run -a` to run all the checks at once.
 Unit tests utilize following external tools
 
 - `pytest`
-- `responses`
+- `pytest-cov`
 
 In order to execute the unit tests run `pytest --cov=src tests`.
 
