@@ -1,15 +1,13 @@
-FROM python:3.10-slim
+FROM python:3.12-slim
 
 WORKDIR /app
 
-RUN apt update && \
-    apt install -y curl && \
-    curl -sSL https://install.python-poetry.org | env POETRY_HOME=/usr/local python3 -
+RUN pip3 install poetry
 
 COPY pyproject.toml ./
 COPY poetry.lock ./
-RUN poetry install
+RUN poetry install --without dev --no-root
 
-COPY src src
+COPY . .
 
-ENTRYPOINT [ "poetry", "run", "python", "src/main.py" ]
+ENTRYPOINT [ "poetry", "run", "python", "src/py_generic_boilerplate/main.py" ]
