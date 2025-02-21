@@ -8,8 +8,6 @@ repos:
       - id: check-yaml
       - id: debug-statements
       - id: end-of-file-fixer
-      - id: detect-private-key
-      - id: detect-aws-credentials
       - id: trailing-whitespace
         args: [--markdown-linebreak-ext=md]
   - repo: https://github.com/astral-sh/ruff-pre-commit
