@@ -4,41 +4,50 @@
 
 Requirements:
 
-* Python 3.9+
-* Pipenv
-* Make
+- Python 3.12+
+- Poetry
 
 #### Setup
 
 ```shell
-pipenv install --dev
-pipenv shell
-make init
+poetry install --with dev
+poetry shell
+pre-commit install
 ```
 
 ## Static analysis
 
 Static analysis utilizes following external tools
 
-- `black`
-- `isort`
-- `flake8`
+- `ruff`
 - `bandit`
-- `safety`
 - `mypy`
 
-In order to run all of them together simply run `make static`.
+To run the static analysis manually execute the following commands:
+
+```shell
+# Run ruff with auto-fix
+ruff check --fix
+# Run ruff with auto-format
+ruff format
+# Run bandit
+bandit -c pyproject.toml -r .
+# Run mypy
+mypy .
+```
+
+> Ruff will run automatically on save in VSCode.
+
+Alternatively, run `pre-commit run -a` to run all the checks at once.
 
 ## Unit tests
 
 Unit tests utilize following external tools
 
-- `assertpy`
 - `pytest`
-- `pytest-cov`
 - `responses`
 
-In order to execute the unit tests run `make test` or to create a code coverage report run `make test_report`.
+In order to execute the unit tests run `pytest --cov=src tests`.
 
 ## Running in Docker
 
@@ -50,25 +59,6 @@ docker run --rm --env-file .env py-generic-boilerplate
 ```
 
 ## GitHub Actions
-
-#### Docker image build & push Workflow (on push event)
-
-Push workflow is located at [.github/workflows/push.yaml](.github/workflows/push.yaml) and does the following:
-
-1. Installs Python
-2. Install dependencies
-3. Runs pre-commit
-4. Runs unit tests
-5. Builds the `Dockerfile`
-6. Pushes the image to the GCR registry with `latest` tag
-7. Pushes the image to the GCR registry with `<COMMIT_SHA>` tag
-
-The workflow requires 2 secrets to be present:
-
-1. `GCLOUD_PROJECT_ID` - GCP project ID
-2. `GCLOUD_SERVICE_KEY` - Base64 encoded service account JSON (`python3 -m base64 -e < sa.json`)
-
-> In order to successfully run the workflow, provided SA must have write access to GCR.
 
 #### Test (on PR event)
 

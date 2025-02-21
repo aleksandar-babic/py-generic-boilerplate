@@ -1,0 +1,44 @@
+[tool.poetry]
+name = "py-generic-boilerplate"
+version = "0.1.0"
+description = "Batteries-included Python Boilerplate"
+authors = ["Aleksandar Babic <aleksandar@cloudhat.dev>"]
+license = "MIT"
+readme = "README.md"
+packages = [{include = "py_generic_boilerplate", from = "src"}]
+
+[tool.poetry.dependencies]
+python = "^3.12"
+python-dotenv = "*"
+
+[tool.poetry.group.dev.dependencies]
+bandit = "*"
+pytest = "*"
+pytest-cov = "*"
+mypy = "*"
+types-requests = "*"
+types-jsonschema = "*"
+pre-commit = "*"
+ruff = "^0.9.7"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.format]
+quote-style = "single"
+indent-style = "tab"
+docstring-code-format = true
+docstring-code-line-length = 72
+
+[tool.ruff.lint]
+extend-select = ["E501", "I"]
+
+[tool.bandit]
+exclude_dirs = [".venv", "tests"]
+
+[tool.mypy]
+exclude = ["tests/"]

@@ -1,12 +1,13 @@
-FROM python:3.10-slim
+FROM python:3.12-slim
 
 WORKDIR /app
 
-RUN pip3 install pipenv
+RUN pip3 install poetry
 
-COPY Pipfile* ./
-RUN pipenv install --dev
+COPY pyproject.toml ./
+COPY poetry.lock ./
+RUN poetry install --without dev --no-root
 
-COPY src src
+COPY . .
 
-ENTRYPOINT [ "pipenv", "run", "python", "src/main.py" ]
+ENTRYPOINT [ "poetry", "run", "python", "src/py_generic_boilerplate/main.py" ]

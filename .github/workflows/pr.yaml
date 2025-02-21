@@ -5,19 +5,44 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-python@v4
+      - uses: actions/checkout@v4
+      - name: Set up python
+        id: setup-python
+        uses: actions/setup-python@v5
         with:
-          python-version: '3.10'
-      - name: Install dependecies
-        uses: VaultVulp/action-pipenv@v2.0.1
+          python-version: "3.12"
+      #----------------------------------------------
+      #  -----  install & configure poetry  -----
+      #----------------------------------------------
+      - name: Install Poetry
+        uses: snok/install-poetry@v1
         with:
-          command: install -d
-      - name: Execute pre-commit
-        uses: VaultVulp/action-pipenv@v2.0.1
+          virtualenvs-create: true
+          virtualenvs-in-project: true
+          virtualenvs-path: .venv
+          installer-parallel: true
+      #----------------------------------------------
+      #       load cached venv if cache exists
+      #----------------------------------------------
+      - name: Load cached venv
+        id: cached-poetry-dependencies
+        uses: actions/cache@v4
         with:
-          command: run pre-commit run -a --color=always --show-diff-on-failure
+          path: .venv
+          key: venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('**/poetry.lock') }}
+      #----------------------------------------------
+      # install dependencies if cache does not exist
+      #----------------------------------------------
+      - name: Install dependencies
+        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
+        run: poetry install --no-interaction --no-root
+      #----------------------------------------------
+      # execute pre-commit
+      #----------------------------------------------
+      - name: Run pre-commit
+        run: poetry run pre-commit run -a
+      #----------------------------------------------
+      # execute unit tests
+      #----------------------------------------------
       - name: Execute Unit Tests
-        uses: VaultVulp/action-pipenv@v2.0.1
-        with:
-          command: run make test
+        run: poetry run pytest --cov=src tests
