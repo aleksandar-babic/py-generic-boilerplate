@@ -40,7 +40,7 @@ jobs:
       # execute pre-commit
       #----------------------------------------------
       - name: Run pre-commit
-        run: poetry run pre-commit run -a
+        run: poetry run pre-commit run --all-files --color=always --show-diff-on-failure
       #----------------------------------------------
       # execute unit tests
       #----------------------------------------------
